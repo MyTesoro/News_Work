@@ -1,18 +1,18 @@
 import logging
 from logging.handlers import RotatingFileHandler
-
-from flask import Flask, session
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from config import Config, config_dict
+
+from info.urls_info import url_app
 
 db = SQLAlchemy()
 
 
 def create_app(config_name):
     """通过传入不同的配置名,切换不同的环境"""
-    app = Flask(__name__)
+    app = url_app()
 
     config = config_dict.get(config_name)
 
@@ -31,8 +31,7 @@ def create_app(config_name):
     Session(app)
 
     # 注册蓝图 时， 导入和注册写在一起
-    from info.modules.index import index_blu
-    app.register_blueprint(index_blu)
+
     return app
 
 
